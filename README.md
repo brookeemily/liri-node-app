@@ -16,11 +16,18 @@ If the artist has upcoming concerts, the date and location will be displayed. If
 The movie-this command uses the Open Movie Database API to pull information on movies.
 > ``` node liri.js movie-this <movie name> ```
 
+(https://i.imgur.com/m6dZonN.png)
+
+If no movie is specified, the program will pull up the info for the film Mr. Nobody
+
+(https://i.imgur.com/enk5T3F.png)
+
+
+
 #### spotify-this-song
 The spotify-this-song command uses the Spotify API to pull information on the song input by the user .
 > ``` node liri.js spotify-this-song <song name> ```
 
-If there is more than one song with the title searched, LIRI will return the 5 top results.
 
 
 #### do-what-it-says
