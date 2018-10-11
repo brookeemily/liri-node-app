@@ -16,6 +16,7 @@ If the artist has upcoming concerts, the date and location will be displayed. If
 The movie-this command uses the Open Movie Database API to pull information on movies.
 > ``` node liri.js movie-this <movie name> ```
 
+![Image of Terminal]
 (https://i.imgur.com/m6dZonN.png)
 
 If no movie is specified, the program will pull up the info for the film Mr. Nobody
