@@ -8,6 +8,7 @@ moment().format();
 
 // Require Spotify
 var Spotify = require("node-spotify-api");
+var theSong = "";
 
 // Import keys.js file and store it in a variable
 var keys = require("./keys.js");
@@ -69,7 +70,8 @@ if (theFunction == "do-what-it-says") {
     // If this first item of the data array is "spotify this song"....
     if (data[0] === "spotify-this-song") {
       // set theThing to the second item of the data array
-      theThing = data[1];
+      process.argv[3] = data[1];
+      console.log(process.argv[3]);
       // run the spotify function to return search results
       spotify();
     }
@@ -80,8 +82,8 @@ if (theFunction == "do-what-it-says") {
 function spotify() {
 
 // variable for the thing being searched
-var nodeArgs = process.argv;
-var theSong = "";
+// var nodeArgs = process.argv;
+// var theSong = "";
 
 for (var i = 3; i < nodeArgs.length; i++) {
   if (i > 3 && i < nodeArgs.length) {
@@ -112,19 +114,16 @@ if (!process.argv[3]) {
         console.log(error);
         return;
       }
+      console.log("---------------SONG INFO-----------------");
 
-      // Returns up to 5 results
-      for (var i = 0; i < 5; i++) {
-        console.log("Artist: " + data.tracks.items[i].album.artists[0].name);
-        console.log("Song: " + data.tracks.items[i].name);
-        console.log("Preview link: " + data.tracks.items[i].external_urls.spotify
+        console.log("Artist: " + data.tracks.items[0].album.artists[0].name);
+        console.log("Song: " + data.tracks.items[0].name);
+        console.log("Preview link: " + data.tracks.items[0].external_urls.spotify
         );
-        console.log("Album: " + data.tracks.items[i].album.name);
-        console.log(
-          "-------------------------------------------------------------------------------------------"
-        );
+        console.log("Album: " + data.tracks.items[0].album.name);
+        console.log("-----------------------------------------");
       }
-    }
+    
   );
 }
 
@@ -211,8 +210,7 @@ if (!process.argv[3]) {
       var movieData = JSON.parse(body);
 
       // This will display the movie data.....
-      console.log("--------------------------------");
-
+      console.log("---------------MOVIE INFO-----------------");
       console.log("The movie's title is: " + movieData.Title);
       console.log("The movie was released in: " + movieData.Year);
       console.log("The movie's IMDB rating is: " + movieData.imdbRating);
@@ -223,7 +221,7 @@ if (!process.argv[3]) {
       console.log("The language of the movie is: " + movieData.Language);
       console.log("The movie's plot is: " + movieData.Plot);
       console.log("The stars of the show are: " + movieData.Actors);
-      console.log("--------------------------------");
+      console.log("-----------------------------------------");
     }
   });
 }
