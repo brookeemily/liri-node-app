@@ -16,6 +16,7 @@ var keys = require("./keys.js");
 var fs = require("fs");
 
 // Set process.argv variables
+console.log("Welcome to LIRI!");
 
 // variable for the function chosen
 var theFunction = process.argv[2];
@@ -77,6 +78,25 @@ if (theFunction == "do-what-it-says") {
 
 //  FUNCTION FOR THE SPOTIFY CALL
 function spotify() {
+
+// variable for the thing being searched
+var nodeArgs = process.argv;
+var theSong = "";
+
+for (var i = 3; i < nodeArgs.length; i++) {
+  if (i > 3 && i < nodeArgs.length) {
+    theSong = theSong + "+" + nodeArgs[i];
+  } else {
+    theSong += nodeArgs[i];
+  }
+}
+
+// if the user does not input anything
+if (!process.argv[3]) {
+  // Set theSong to "The Sign"
+  theSong = "The Sign";
+}
+
   // Create spotify variable to hold new spotify object w/ keys
   var spotify = new Spotify(keys.spotify);
 
@@ -84,7 +104,7 @@ function spotify() {
   spotify.search(
     {
       type: "track",
-      query: theThing,
+      query: theSong,
       limit: 5
     },
     function(error, data) {
@@ -93,20 +113,11 @@ function spotify() {
         return;
       }
 
-      // If there is no name included, search for "The Sign"
-      if (!theThing) {
-        theThing = "The Sign";
-      }
-
       // Returns up to 5 results
       for (var i = 0; i < 5; i++) {
-        console.log(
-          "-------------------------------------------------------------------------------------------"
-        );
         console.log("Artist: " + data.tracks.items[i].album.artists[0].name);
         console.log("Song: " + data.tracks.items[i].name);
-        console.log(
-          "Preview link: " + data.tracks.items[i].external_urls.spotify
+        console.log("Preview link: " + data.tracks.items[i].external_urls.spotify
         );
         console.log("Album: " + data.tracks.items[i].album.name);
         console.log(
@@ -120,15 +131,15 @@ function spotify() {
 function bands() {
 
   // Run a request to the Bands in Town API with the band specified
-
+  
   // construct the queryURL
   var queryUrl =
-    "https://rest.bandsintown.com/artists/" +
-    theThing +
-    "/events?app_id=codingbootcamp";
-  console.log(queryUrl);
-
+  "https://rest.bandsintown.com/artists/" +
+  theThing +
+  "/events?app_id=codingbootcamp";
+  
   // The request is made to the queryUrl
+
   request(queryUrl, function(error, response, body) {
     // If the request was successful...
     if (!error && response.statusCode === 200) {
@@ -137,6 +148,8 @@ function bands() {
 
       //   Use for loop to go through each upcoming concert & display info
       for (i = 0; i < concertData.length; i++) {
+        console.log("--------------------------------");
+
         console.log("Venue: " + concertData[i].venue.name);
         console.log(
           "City: " +
@@ -149,6 +162,15 @@ function bands() {
         );
         console.log("--------------------------------");
       }
+           // If there are no upcoming events...
+           if ((concertData.length < 1)) {
+            console.log("--------------------------------");
+
+            console.log("It looks like " + theThing + " doesn't have any upcoming events. Bummer! :(");
+
+            console.log("--------------------------------");
+
+          }
     }
   });
 }
@@ -156,9 +178,29 @@ function bands() {
 function movie() {
   // Run a request to the Open Movie Database API with the movie specified
 
-  // Construct queryUrl
+// variable for the thing being searched
+var nodeArgs = process.argv;
+var theMovie = "";
+
+// var events = new BandsInTownEvents();
+
+for (var i = 3; i < nodeArgs.length; i++) {
+  if (i > 3 && i < nodeArgs.length) {
+    theMovie = theMovie + "+" + nodeArgs[i];
+  } else {
+    theMovie += nodeArgs[i];
+  }
+}
+
+// if the user does not input anything
+if (!process.argv[3]) {
+  // Set theMovie to Mr. Nobody
+  theMovie = "Mr. Nobody";
+}
+
+// Construct queryUrl
   var queryUrl =
-    "http://www.omdbapi.com/?t=" + theThing + "&y=&plot=short&apikey=trilogy";
+    "http://www.omdbapi.com/?t=" + theMovie + "&y=&plot=short&apikey=trilogy";
 
 
   // Send request to the URL constructed 
